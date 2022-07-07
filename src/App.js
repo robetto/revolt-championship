@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Autocomplete from "./components/Autocomplete";
 import ListaMappe from "./components/ListaMappe";
 import Modal from "./components/Modal";
 import UploadMappa from "./components/UploadMappa";
@@ -7,6 +8,9 @@ function App() {
   const [selectedImg, setSelectedImg] = useState(null);
   return (
     <div className="App">
+      <Autocomplete
+        suggestions={["White", "Black", "Green", "Blue", "Yellow", "Red"]}
+      />
       <UploadMappa />
       <ListaMappe setSelectedImg={setSelectedImg} />
       {selectedImg && (
