@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { projectFirestore } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { containerVariants } from "../animazioni";
 
 function CreatePos() {
   const [posizionamento, setPosizionamento] = useState("");
@@ -20,30 +22,38 @@ function CreatePos() {
   };
 
   return (
-    <div className="createPosPage">
-      <div className="cpContainer">
-        <h1>Posizionamento</h1>
-        <div className="inputGp">
-          <label> Mappa:</label>
-          <input
-            placeholder="Mappa..."
-            onChange={(event) => {
+    <motion.div
+      className="container"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <div className="createPosPage">
+        <div className="cpContainer">
+          <h1>Posizionamento</h1>
+          <div className="inputGp">
+            <label> Mappa:</label>
+            <input
+              placeholder="Mappa..."
+              onChange={(event) => {
                 setIdMappa(event.target.value);
-            }}
-          />
-        </div>
-        <div className="inputGp">
-          <label> Posizionamento:</label>
-          <input
-            placeholder="Posizionamento"
-            onChange={(event) => {
+              }}
+            />
+          </div>
+          <div className="inputGp">
+            <label> Posizionamento:</label>
+            <input
+              placeholder="Posizionamento"
+              onChange={(event) => {
                 setPosizionamento(event.target.value);
-            }}
-          />
+              }}
+            />
+          </div>
+          <button onClick={createPos}> Invia</button>
         </div>
-        <button onClick={createPos}> Invia</button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

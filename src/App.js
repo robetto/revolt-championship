@@ -1,29 +1,29 @@
 import { useState } from "react";
-import Autocomplete from "./components/Autocomplete";
-import ListaMappe from "./components/ListaMappe";
-import Modal from "./components/Modal";
-import UploadMappa from "./components/UploadMappa";
+import { AnimatePresence } from "framer-motion";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home"; 
+import { Routes, Route, useLocation } from "react-router-dom";
+import Home from "./pages/Home";
 import Classifica from "./pages/Classifica";
 import CreatePos from "./pages/CreatePos";
+import Header from "./components/Header";
+import Partite from "./pages/Partite";
+import StoricoPartite from "./pages/StoricoPartite";
 
 function App() {
+  const location = useLocation();
   const [selectedImg, setSelectedImg] = useState(null);
   return (
-    <Router>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/aggiungi">Aggiungi</Link>
-        <Link to="/classifica">Classifica</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/aggiungi" element={<CreatePos />} />
-        <Route path="/classifica" element={<Classifica />} />
-      </Routes>
-      {/* <div className="App">
+    <>
+      <Header />
+      <AnimatePresence exitBeforeEnter>
+        <Routes location={location} key={location.key}>
+          <Route path="/" element={<Home />} />
+          <Route path="/partite" element={<Partite />} />
+          {/* <Route path="/aggiungi" element={<CreatePos />} /> */}
+          <Route path="/classifica" element={<Classifica />} />
+          <Route path="/elenco" element={<StoricoPartite />} />
+        </Routes>
+        {/* <div className="App">
         <Autocomplete
           suggestions={["White", "Black", "Green", "Blue", "Yellow", "Red"]}
         />
@@ -33,7 +33,8 @@ function App() {
           <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
         )}
       </div> */}
-    </Router>
+      </AnimatePresence>
+    </>
   );
 }
 

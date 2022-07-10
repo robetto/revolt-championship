@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import { projectFirestore } from "../firebase/config";
+import { motion } from "framer-motion";
+import { containerVariants } from "../animazioni";
 
 const Classifica = () => {
   const [posList, setPosList] = useState([]);
@@ -22,32 +24,40 @@ const Classifica = () => {
   }, [deletePos]);
 
   return (
-    <div className="homePage">
-      {posList.map((pos) => {
-        return (
-          <div className="pos">
-            <div className="posHeader">
-              <div className="title">
-                <h1> {pos.title}</h1>
+    <motion.div
+      className="container"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <div className="homePage">
+        {posList.map((pos) => {
+          return (
+            <div className="pos">
+              <div className="posHeader">
+                <div className="title">
+                  <h1> {pos.title}</h1>
+                </div>
+                <div className="deletePos">
+                  <button
+                    onClick={() => {
+                      deletePos(pos.id);
+                    }}
+                  >
+                    {" "}
+                    &#128465;
+                  </button>
+                </div>
               </div>
-              <div className="deletePos">
-                <button
-                  onClick={() => {
-                    deletePos(pos.id);
-                  }}
-                >
-                  {" "}
-                  &#128465;
-                </button>
-              </div>
+              <div className="posTextContainer">mappa {pos.idMappa} </div>
+              <h3>pilota {pos.idPilota}</h3>
+              <h3>id {pos.id}</h3>
             </div>
-            <div className="posTextContainer">mappa {pos.idMappa} </div>
-            <h3>pilota {pos.idPilota}</h3>
-            <h3>id {pos.id}</h3>
-          </div>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </motion.div>
   );
 };
 

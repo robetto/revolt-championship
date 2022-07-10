@@ -6,15 +6,42 @@
   --error: #ff4a4a;
 }
 
-/* base styles & title */
-body {
+/* reset & common styles */
+body,
+ul,
+h1,
+h2,
+h3,
+p,
+button,
+a,
+div {
+  margin: 0;
+  padding: 0;
+  color: white;
   font-family: "Noto Serif";
-  color: var(--secondary);
+  letter-spacing: 2px;
+  list-style-type: none;
+  text-decoration: none;
 }
+body {
+  background: rgb(100, 0, 123);
+  background: radial-gradient(
+    circle,
+    rgba(100, 0, 123, 1) 0%,
+    rgba(62, 20, 86, 1) 100%
+  );
+  overflow: hidden;
+}
+
 .App {
-  max-width: 960px;
-  margin: 0 auto;
 }
+
+.container {
+  max-width: 580px;
+  margin: 100px auto 40px;
+}
+
 .title h1 {
   color: var(--primary);
   font-size: 1.2rem;

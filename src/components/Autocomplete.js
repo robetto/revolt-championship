@@ -12,7 +12,7 @@ export class Autocomplete extends Component {
   }
 
   onChange = (e) => {
-    const { suggestions } = this.props;
+    const { suggestions, mappa, setMappa } = this.props;
     const userInput = e.currentTarget.value;
 
     const filteredSuggestions = suggestions.filter(
@@ -26,6 +26,8 @@ export class Autocomplete extends Component {
       showSuggestions: true,
       userInput: e.currentTarget.value,
     });
+
+    setMappa(e.currentTarget.value);
   };
 
   onClick = (e) => {
@@ -104,6 +106,8 @@ export class Autocomplete extends Component {
     return (
       <React.Fragment>
         <input
+          name="mappa"
+          id="mappa"
           type="search"
           onChange={onChange}
           onKeyDown={onKeyDown}
