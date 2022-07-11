@@ -6,10 +6,10 @@ import { containerVariants } from "../animazioni";
 
 const Classifica = () => {
   const [posList, setPosList] = useState([]);
-  const posCollectionRef = collection(projectFirestore, "posizionamenti");
+  const posCollectionRef = collection(projectFirestore, "partite");
 
   const deletePos = async (id) => {
-    const posDoc = doc(projectFirestore, "posizionamenti", id);
+    const posDoc = doc(projectFirestore, "partite", id);
     await deleteDoc(posDoc);
   };
 

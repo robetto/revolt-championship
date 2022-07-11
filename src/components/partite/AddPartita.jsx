@@ -1,51 +1,74 @@
 import React, { useState, useEffect } from "react";
-import PartitaDataService from "../../firebase/funzioni";
-import { Autocomplete } from "../Autocomplete";
+import { funzioniDBPartita } from "../../firebase/funzioni";
+import Autocomplete from "../Autocomplete";
+import { timestamp } from "../../firebase/config";
 
 const AddPartita = ({ id, setPartitaId }) => {
-  const [title, setTitle] = useState("");
   const [mappa, setMappa] = useState("");
-  const [author, setAuthor] = useState("");
+  const [posRoby, setPosRoby] = useState("");
+  const [posDany, setPosDany] = useState("");
+  const [posBoffy, setPosBoffy] = useState("");
+  const [posMalsana, setPosMalsana] = useState("");
+  const [posMarco, setPosMarco] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-    if (title === "" || author === "") {
-      setMessage({ error: true, msg: "All fields are mandatory!" });
+
+    if (
+      posRoby === "" ||
+      posDany === "" ||
+      posBoffy === "" ||
+      posMalsana === ""
+    ) {
+      setMessage({ error: true, msg: "Manca qualche campo coglione!" });
       return;
     }
+
     const newPartita = {
       mappa,
-      title,
-      author,
+      posRoby,
+      posDany,
+      posBoffy,
+      posMalsana,
+      posMarco,
+      createdAt: timestamp,
     };
     console.log(newPartita);
 
     try {
       if (id !== undefined && id !== "") {
-        await PartitaDataService.updatePartita(id, newPartita);
+        await funzioniDBPartita.updatePartita(id, newPartita);
         setPartitaId("");
-        setMessage({ error: false, msg: "Updated successfully!" });
+        setMessage({ error: false, msg: "Partita modificata con successo" });
       } else {
-        await PartitaDataService.addPartite(newPartita);
-        setMessage({ error: false, msg: "New Book added successfully!" });
+        await funzioniDBPartita.addPartite(newPartita);
+        setMessage({ error: false, msg: "Partita aggiunta con successo" });
       }
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
 
-    setTitle("");
-    setAuthor("");
+    setPosRoby("");
+    setPosDany("");
+    setPosBoffy("");
+    setPosMalsana("");
+    setPosMarco("");
+    setMappa("");
   };
 
   const editHandler = async () => {
     setMessage("");
     try {
-      const docSnap = await PartitaDataService.getPartita(id);
+      const docSnap = await funzioniDBPartita.getPartita(id);
       console.log("the record is :", docSnap.data());
-      setTitle(docSnap.data().title);
-      setAuthor(docSnap.data().author);
+      setPosRoby(docSnap.data().posRoby);
+      setPosDany(docSnap.data().posDany);
+      setPosBoffy(docSnap.data().posBoffy);
+      setPosMalsana(docSnap.data().posMalsana);
+      setPosMarco(docSnap.data().posMarco);
+      setMappa(docSnap.data().mappa);
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
@@ -59,7 +82,7 @@ const AddPartita = ({ id, setPartitaId }) => {
   }, [id]);
 
   return (
-    <>
+    <div className="container">
       <div className="p-4 box">
         {message?.msg && (
           <div
@@ -73,37 +96,82 @@ const AddPartita = ({ id, setPartitaId }) => {
         )}
 
         <form onSubmit={handleSubmit}>
-          <Autocomplete
-            mappa={mappa}
-            setMappa={setMappa}
-            suggestions={["White", "Black", "Green", "Blue", "Yellow", "Red"]}
-          />
+          <div className="form-partita">
+            <div className="form-left">
+              <Autocomplete
+                mappa={mappa}
+                setMappa={setMappa}
+                suggestions={[
+                  "White",
+                  "Black",
+                  "Green",
+                  "Blue",
+                  "Yellow",
+                  "Red",
+                ]}
+              />
+            </div>
+            <div className="form-right">
+              <div className="form-group">
+                <label>posizionamento roby</label>
+                <input
+                  type="text"
+                  id="posRoby"
+                  value={posRoby}
+                  onChange={(e) => setPosRoby(e.target.value)}
+                />
+              </div>
 
-          <label>posizionamento roby</label>
-          <input
-            type="text"
-            id="formBookTitle"
-            placeholder="Book Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+              <div className="form-group">
+                <label>posizionamento dany</label>
+                <input
+                  type="text"
+                  id="posDany"
+                  value={posDany}
+                  onChange={(e) => setPosDany(e.target.value)}
+                />
+              </div>
 
-          <label>posizionamento Dany</label>
-          <input
-            type="text"
-            placeholder="Book Author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
+              <div className="form-group">
+                <label>posizionamento boffy</label>
+                <input
+                  type="text"
+                  id="posBoffy"
+                  value={posBoffy}
+                  onChange={(e) => setPosBoffy(e.target.value)}
+                />
+              </div>
 
-          <div className="d-grid gap-2">
+              <div className="form-group">
+                <label>posizionamento malsana</label>
+                <input
+                  type="text"
+                  id="posMalsana"
+                  value={posMalsana}
+                  onChange={(e) => setPosMalsana(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>posizionamento marco</label>
+                <input
+                  type="text"
+                  id="posMarco"
+                  value={posMarco}
+                  onChange={(e) => setPosMarco(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="add-partita-buttons">
             <button variant="primary" type="Submit">
-              Add/ Update
+              Add / Update
             </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

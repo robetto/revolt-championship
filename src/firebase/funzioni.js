@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 
 const partitaCollectionRef = collection(projectFirestore, "partite");
+const mappaCollectionRef = collection(projectFirestore, "mappe");
 
 class PartitaDataService {
   addPartite = (nuovaPartita) => {
@@ -37,4 +38,11 @@ class PartitaDataService {
   };
 }
 
-export default new PartitaDataService();
+class MappaDataService {
+  getAllMappe = () => {
+    return getDocs(mappaCollectionRef);
+  }; 
+}
+
+export const funzioniDBPartita = new PartitaDataService();
+export const funzioniDBMappe = new MappaDataService();

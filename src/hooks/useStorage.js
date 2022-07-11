@@ -42,20 +42,20 @@ const useStorage = (file) => {
       (err) => {
         setError(err);
       },
-      async () => {
+      () => {
         // const url = await storageRef.getDownloadURL();
-        const url = "https://firebasestorage.googleapis.com/v0/b/revolt-championship.appspot.com/o/mappe%2F1asd.png?alt=media&token=d6977275-4e94-4416-874f-3ac22d7b7ec6"
-        // getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        //   url = downloadURL;
-        // });
+        //const url = "https://firebasestorage.googleapis.com/v0/b/revolt-championship.appspot.com/o/mappe%2F1asd.png?alt=media&token=d6977275-4e94-4416-874f-3ac22d7b7ec6"
+
         const createdAt = serverTimestamp();
-        // await collectionRef.add({ url, createdAt });
-        const docRef = await addDoc(collection(projectFirestore, "mappe"), {
-          nome: "nomemappa",
-          createdAt,
-          url: url,
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setUrl(downloadURL);
+          addDoc(collection(projectFirestore, "mappe"), {
+            nome: file.name,
+            createdAt,
+            url: downloadURL,
+          });
         });
-        setUrl(url);
+        // await collectionRef.add({ url, createdAt });
       }
     );
   }, [file]);

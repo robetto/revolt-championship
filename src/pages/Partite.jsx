@@ -15,8 +15,6 @@ const Partite = () => {
       <div className="partite">
         <AddPartita id={partitaId} setPartitaId={setPartitaId} />
       </div>
-
-      <StoricoPartite getPartitaId={getPartitaIdHandler} />
     </>
   );
 };

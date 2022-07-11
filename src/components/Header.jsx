@@ -5,14 +5,6 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <header>
-      <div className="logo">
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/partite">Registra match</Link>
-          <Link to="/classifica">Classifica</Link>
-          <Link to="/elenco">Storico partite</Link>
-        </nav>
-      </div>
       <motion.div
         className="title"
         initial={{ y: -250 }}
@@ -21,6 +13,13 @@ const Header = () => {
       >
         <h1>Revolt</h1>
       </motion.div>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/partite">Registra match</Link>
+        <Link to="/classifica">Classifica</Link>
+        <Link to="/elenco">Storico partite</Link>
+        <Link to="/mappe">Mappe</Link>
+      </nav>
     </header>
   );
 };

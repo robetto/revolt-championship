@@ -8,10 +8,10 @@ import CreatePos from "./pages/CreatePos";
 import Header from "./components/Header";
 import Partite from "./pages/Partite";
 import StoricoPartite from "./pages/StoricoPartite";
+import ListaMappe from "./components/ListaMappe";
 
 function App() {
   const location = useLocation();
-  const [selectedImg, setSelectedImg] = useState(null);
   return (
     <>
       <Header />
@@ -22,6 +22,7 @@ function App() {
           {/* <Route path="/aggiungi" element={<CreatePos />} /> */}
           <Route path="/classifica" element={<Classifica />} />
           <Route path="/elenco" element={<StoricoPartite />} />
+          <Route path="/mappe" element={<ListaMappe />} />
         </Routes>
         {/* <div className="App">
         <Autocomplete
