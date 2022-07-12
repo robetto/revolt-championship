@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { containerVariants } from "../animazioni";
 
 function CreatePos() {
+  const listaMappe = ["Apple", "Mango", "Airplane"];
+  const [fList, setFlist] = useState([]);  
   const [posizionamento, setPosizionamento] = useState("");
   const [idMappa, setIdMappa] = useState("");
 

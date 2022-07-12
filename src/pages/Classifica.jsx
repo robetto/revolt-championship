@@ -31,10 +31,10 @@ const Classifica = () => {
       animate="visible"
       exit="exit"
     >
-      <div className="homePage">
-        {posList.map((pos) => {
+      <div className="classifica">
+        {posList.map((pos, index) => {
           return (
-            <div className="pos">
+            <div className="pos" key={index}>
               <div className="posHeader">
                 <div className="title">
                   <h1> {pos.title}</h1>

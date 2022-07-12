@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import useFirestore from "../hooks/useFirestore";
 import { motion } from "framer-motion";
-import UploadMappa from '../components/UploadMappa'
+import UploadMappa from "../components/UploadMappa";
+import { containerVariants } from "../animazioni";
 
 const ListaMappe = () => {
   const { docs } = useFirestore("mappe");
 
   return (
-    <div className="container">
+    <motion.div
+      className="container"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
       <UploadMappa />
       <div className="img-grid">
         {docs &&
@@ -25,11 +32,13 @@ const ListaMappe = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
               />
-              <p>asdasda</p>
+              <div className="nome__mappa">
+                <h2>{doc.nome}</h2>
+              </div>
             </motion.div>
           ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

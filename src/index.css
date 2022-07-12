@@ -6,6 +6,12 @@
   --error: #ff4a4a;
 }
 
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 /* reset & common styles */
 body,
 ul,
@@ -42,8 +48,17 @@ body {
   margin: 100px auto 40px;
 }
 
-header { align-items: center; display: flex; max-width: 800px; padding: 25px; margin: 0 auto; justify-content: space-between;}
-nav a { margin:0 10px;}
+header {
+  align-items: center;
+  display: flex;
+  max-width: 800px;
+  padding: 25px;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+nav a {
+  margin: 0 10px;
+}
 
 .title h1 {
   color: var(--primary);
@@ -60,14 +75,34 @@ nav a { margin:0 10px;}
   font-size: 2.6rem;
 }
 
-button { color: white; padding: 20px 30px; border: 1px solid #4e4e4e; background-color: #4e4e4e; }
+.mappa__autocomplete {
+  position: relative;
+}
+.mappa__autocomplete p {
+  background-color: rgba(33, 0, 41, 0.7);
+  color: white;
+  width: 100%;
+  cursor: pointer;
+  padding: 4px 12px;
+}
+.mappa__autocomplete p:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+button {
+  cursor: pointer;
+  color: white;
+  padding: 20px 30px;
+  border: 1px solid #4e4e4e;
+  background-color: #4e4e4e;
+}
 
 /* upload form styles */
 .upload__mappa form {
   margin: 30px auto 10px;
   text-align: center;
 }
-.upload__mappa label input {
+.upload__mappa label input[type="file"] {
   height: 0;
   width: 0;
   opacity: 0;
@@ -94,6 +129,13 @@ button { color: white; padding: 20px 30px; border: 1px solid #4e4e4e; background
 }
 .error {
   color: var(--error);
+}
+.nome__mappa {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 20px;
 }
 
 /* progress bar styles */
@@ -128,13 +170,33 @@ button { color: white; padding: 20px 30px; border: 1px solid #4e4e4e; background
   object-fit: cover;
 }
 
-.form-partita { display: flex;}
-.form-left { padding-right: 30px;}
-.form-group { display: flex; align-items: center; padding: 10px;}
-.form-group label { text-transform: uppercase; margin-right: 9px; }
-.form-group input { height: 30px; max-width: 40px; font-size: 22px; font-weight: bold;margin-left: auto; }
+.form-partita {
+  display: flex;
+}
+.form-left {
+  padding-right: 30px;
+}
+.form-group {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.form-group label {
+  text-transform: uppercase;
+  margin-right: 9px;
+}
+.form-group input {
+  height: 30px;
+  max-width: 40px;
+  font-size: 22px;
+  font-weight: bold;
+  margin-left: auto;
+}
 
-.add-partita-buttons { display: flex; justify-content: flex-end;}
+.add-partita-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
 
 /****************** AUTOCOMPLETE *************/
 .searchbox {
@@ -177,53 +239,7 @@ input[type="search"]::-moz-placeholder {
 input[type="search"]:-ms-input-placeholder {
   /* interner explorer*/
   color: #b1e0de;
-}
-li {
-  display: block;
-  /*removing underlines from anchor element*/
-  text-decoration: none;
-  color: #1f5350;
-  font-size: 50px;
-  background-color: #ace5e2;
-  padding: 10px;
-}
-ul {
-  /*removing predefined bullet points from list*/
-  list-style: none;
-  /*removing padding from list items*/
-  padding: 0;
-  width: 465px;
-}
-ul li {
-  margin-bottom: 10px;
-}
-/*adding effect when the mouse is hovered over list item*/
-ul li a:hover {
-  color: #b23b61;
-  background: #ecd1da;
-}
-/*moving it slightly toware right when hovered*/
-ul li:hover {
-  /*transform*/
-  -webkit-transform: translateX(20px);
-  -moz-transform: translateX(20px);
-  -ms-transform: translateX(20px);
-  -o-transform: translateX(20px);
-  transform: translateX(20px);
-}
-/*now first we will hide the suggestion list*/
-.suggestions li {
-  overflow: hidden;
-  height: 0;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
-/*and make the suggestion reappear when user focus on search field*/
-input[type="search"]:focus + .suggestions li {
-  height: 63px;
-}
+} 
 
 .byline {
   text-align: center;
@@ -233,5 +249,3 @@ input[type="search"]:focus + .suggestions li {
   text-decoration: none;
   color: #1f5350;
 }
-
-

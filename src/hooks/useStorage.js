@@ -17,7 +17,7 @@ import {
   timestamp,
 } from "../firebase/config";
 
-const useStorage = (file) => {
+const useStorage = (file, nomeMappa) => {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
@@ -50,7 +50,7 @@ const useStorage = (file) => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setUrl(downloadURL);
           addDoc(collection(projectFirestore, "mappe"), {
-            nome: file.name,
+            nome: nomeMappa,
             createdAt,
             url: downloadURL,
           });

@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { funzioniDBPartita } from "../../firebase/funzioni";
 import Autocomplete from "../Autocomplete";
 import { timestamp } from "../../firebase/config";
+import useFirestore from "../../hooks/useFirestore";
 
-const AddPartita = ({ id, setPartitaId }) => {
+const AddPartita = ({ id, setPartitaId, listaMappe }) => {
+  const [fList, setFlist] = useState([]);
+
   const [mappa, setMappa] = useState("");
   const [posRoby, setPosRoby] = useState("");
   const [posDany, setPosDany] = useState("");
@@ -11,6 +14,26 @@ const AddPartita = ({ id, setPartitaId }) => {
   const [posMalsana, setPosMalsana] = useState("");
   const [posMarco, setPosMarco] = useState("");
   const [message, setMessage] = useState({ error: false, msg: "" });
+
+  const changeInput = (e) => {
+    let searchStr = e.target.value.trim();
+    setMappa(searchStr);
+    if (searchStr.length) {
+      const filteredList = listaMappe.filter((item) => {
+        if (item.toUpperCase().includes(searchStr.toUpperCase())) {
+          return item;
+        }
+        return false;
+      });
+      setFlist(filteredList);
+    } else {
+      setFlist([]);
+    }
+  };
+  const onSelectMappa = (item) => {
+    setMappa(item);
+    setFlist([]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,7 +102,7 @@ const AddPartita = ({ id, setPartitaId }) => {
     if (id !== undefined && id !== "") {
       editHandler();
     }
-  }, [id]);
+  }, []);
 
   return (
     <div className="container">
@@ -98,18 +121,24 @@ const AddPartita = ({ id, setPartitaId }) => {
         <form onSubmit={handleSubmit}>
           <div className="form-partita">
             <div className="form-left">
-              <Autocomplete
-                mappa={mappa}
-                setMappa={setMappa}
-                suggestions={[
-                  "White",
-                  "Black",
-                  "Green",
-                  "Blue",
-                  "Yellow",
-                  "Red",
-                ]}
-              />
+              <div className="mappa__autocomplete">
+                <input
+                  type="search"
+                  onChange={(e) => changeInput(e)}
+                  value={mappa}
+                />
+                {fList.map((item, index) => {
+                  return (
+                    <p
+                      className="auto-complete"
+                      key={index}
+                      onClick={() => onSelectMappa(item)}
+                    >
+                      {item}
+                    </p>
+                  );
+                })}
+              </div>
             </div>
             <div className="form-right">
               <div className="form-group">
