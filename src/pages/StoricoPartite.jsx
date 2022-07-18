@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { funzioniDBPartita } from "../firebase/funzioni";
 
-const StoricoPartite = ({ getPartitaId }) => {
+const StoricoPartite = () => {
   const [partite, setPartite] = useState([]);
   useEffect(() => {
     getPartite();
@@ -9,7 +9,6 @@ const StoricoPartite = ({ getPartitaId }) => {
 
   const getPartite = async () => {
     const data = await funzioniDBPartita.getAllPartite();
-    console.log(data.docs);
     setPartite(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
@@ -33,11 +32,11 @@ const StoricoPartite = ({ getPartitaId }) => {
               <th>#</th>
               <th>Data</th>
               <th>Mappa</th>
-              <th>Posizionamento<br />Roby</th>
-              <th>Posizionamento<br />Dany</th>
-              <th>Posizionamento<br />Boffy</th>
-              <th>Posizionamento<br />Malsana</th>
-              <th>Posizionamento<br />Marco</th>
+              <th>Roby</th>
+              <th>Dany</th>
+              <th>Boffy</th>
+              <th>Malsana</th>
+              <th>Marco</th>
               <th>Action</th>
             </tr>
           </thead>

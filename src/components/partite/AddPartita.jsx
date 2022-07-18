@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { funzioniDBPartita } from "../../firebase/funzioni";
-import Autocomplete from "../Autocomplete";
 import { timestamp } from "../../firebase/config";
-import useFirestore from "../../hooks/useFirestore";
 
 const AddPartita = ({ id, setPartitaId, listaMappe }) => {
   const [fList, setFlist] = useState([]);
@@ -13,6 +11,19 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
   const [posBoffy, setPosBoffy] = useState("");
   const [posMalsana, setPosMalsana] = useState("");
   const [posMarco, setPosMarco] = useState("");
+
+  const [jollyRoby, setJollyRoby] = useState(false);
+  const [jollyDany, setJollyDany] = useState(false);
+  const [jollyBoffy, setJollyBoffy] = useState(false);
+  const [jollyMalsana, setJollyMalsana] = useState(false);
+  const [jollyMarco, setJollyMarco] = useState(false);
+
+  const [tempoRoby, setTempoRoby] = useState("");
+  const [tempoDany, setTempoDany] = useState("");
+  const [tempoBoffy, setTempoBoffy] = useState("");
+  const [tempoMalsana, setTempoMalsana] = useState("");
+  const [tempoMarco, setTempoMarco] = useState("");
+
   const [message, setMessage] = useState({ error: false, msg: "" });
 
   const changeInput = (e) => {
@@ -30,6 +41,7 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
       setFlist([]);
     }
   };
+
   const onSelectMappa = (item) => {
     setMappa(item);
     setFlist([]);
@@ -40,6 +52,7 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
     setMessage("");
 
     if (
+      mappa === "" ||
       posRoby === "" ||
       posDany === "" ||
       posBoffy === "" ||
@@ -52,23 +65,26 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
     const newPartita = {
       mappa,
       posRoby,
+      jollyRoby,
+      tempoRoby,
       posDany,
+      jollyDany,
+      tempoDany,
       posBoffy,
+      jollyBoffy,
+      tempoBoffy,
       posMalsana,
+      jollyMalsana,
+      tempoMalsana,
       posMarco,
+      jollyMarco,
+      tempoMarco,
       createdAt: timestamp,
     };
-    console.log(newPartita);
 
     try {
-      if (id !== undefined && id !== "") {
-        await funzioniDBPartita.updatePartita(id, newPartita);
-        setPartitaId("");
-        setMessage({ error: false, msg: "Partita modificata con successo" });
-      } else {
-        await funzioniDBPartita.addPartite(newPartita);
-        setMessage({ error: false, msg: "Partita aggiunta con successo" });
-      }
+      await funzioniDBPartita.addPartite(newPartita);
+      setMessage({ error: false, msg: "Partita aggiunta con successo" });
     } catch (err) {
       setMessage({ error: true, msg: err.message });
     }
@@ -78,31 +94,21 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
     setPosBoffy("");
     setPosMalsana("");
     setPosMarco("");
+
+    setJollyRoby(false);
+    setJollyDany(false);
+    setJollyBoffy(false);
+    setJollyMalsana(false);
+    setJollyMarco(false);
+
+    setTempoRoby("");
+    setTempoDany("");
+    setTempoBoffy("");
+    setTempoMalsana("");
+    setTempoMarco("");
+
     setMappa("");
   };
-
-  const editHandler = async () => {
-    setMessage("");
-    try {
-      const docSnap = await funzioniDBPartita.getPartita(id);
-      console.log("the record is :", docSnap.data());
-      setPosRoby(docSnap.data().posRoby);
-      setPosDany(docSnap.data().posDany);
-      setPosBoffy(docSnap.data().posBoffy);
-      setPosMalsana(docSnap.data().posMalsana);
-      setPosMarco(docSnap.data().posMarco);
-      setMappa(docSnap.data().mappa);
-    } catch (err) {
-      setMessage({ error: true, msg: err.message });
-    }
-  };
-
-  useEffect(() => {
-    console.log("The id here is : ", id);
-    if (id !== undefined && id !== "") {
-      editHandler();
-    }
-  }, []);
 
   return (
     <div className="container">
@@ -149,6 +155,14 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
                   value={posRoby}
                   onChange={(e) => setPosRoby(e.target.value)}
                 />
+                <input type="checkbox" id="jollyRoby" value={jollyRoby}  checked={jollyRoby} onChange={() => setJollyRoby(!jollyRoby)} />
+                <input
+                  type="text"
+                  id="tempoRoby"
+                  value={tempoRoby}
+                  className="tempo__input"
+                  onChange={(e) => setTempoRoby(e.target.value)}
+                />
               </div>
 
               <div className="form-group">
@@ -159,6 +173,14 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
                   value={posDany}
                   onChange={(e) => setPosDany(e.target.value)}
                 />
+                <input type="checkbox" id="jollyDany" value={jollyDany}  checked={jollyDany} onChange={() => setJollyDany(!jollyDany)} />
+                <input
+                  type="text"
+                  id="tempoDany"
+                  value={tempoDany}
+                  className="tempo__input"
+                  onChange={(e) => setTempoDany(e.target.value)}
+                />                
               </div>
 
               <div className="form-group">
@@ -169,6 +191,14 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
                   value={posBoffy}
                   onChange={(e) => setPosBoffy(e.target.value)}
                 />
+                <input type="checkbox" id="jollyBoffy" value={jollyBoffy} checked={jollyBoffy} onChange={() => setJollyBoffy(!jollyBoffy)}  />
+                <input
+                  type="text"
+                  id="tempoBoffy"
+                  value={tempoBoffy}
+                  className="tempo__input"
+                  onChange={(e) => setTempoBoffy(e.target.value)}
+                />     
               </div>
 
               <div className="form-group">
@@ -179,6 +209,14 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
                   value={posMalsana}
                   onChange={(e) => setPosMalsana(e.target.value)}
                 />
+                <input type="checkbox" id="jollyMalsana" value={jollyMalsana} checked={jollyMalsana} onChange={() => setJollyMalsana(!jollyMalsana)} />
+                <input
+                  type="text"
+                  id="tempoMalsana"
+                  value={tempoMalsana}
+                  className="tempo__input"
+                  onChange={(e) => setTempoMalsana(e.target.value)}
+                />                     
               </div>
 
               <div className="form-group">
@@ -189,6 +227,14 @@ const AddPartita = ({ id, setPartitaId, listaMappe }) => {
                   value={posMarco}
                   onChange={(e) => setPosMarco(e.target.value)}
                 />
+                <input type="checkbox" id="jollyMarco" value={jollyMarco} checked={jollyMarco} onChange={() => setJollyMarco(!jollyMarco)} />
+                <input
+                  type="text"
+                  id="tempoMarco"
+                  value={tempoMarco}
+                  className="tempo__input"
+                  onChange={(e) => setTempoMarco(e.target.value)}
+                />                     
               </div>
             </div>
           </div>

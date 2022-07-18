@@ -172,6 +172,7 @@ button {
 
 .form-partita {
   display: flex;
+  flex-direction: column;
 }
 .form-left {
   padding-right: 30px;
@@ -191,6 +192,10 @@ button {
   font-size: 22px;
   font-weight: bold;
   margin-left: auto;
+}
+.form-group input.tempo__input {
+  width: 100%;
+  max-width: 200px;
 }
 
 .add-partita-buttons {
@@ -239,7 +244,7 @@ input[type="search"]::-moz-placeholder {
 input[type="search"]:-ms-input-placeholder {
   /* interner explorer*/
   color: #b1e0de;
-} 
+}
 
 .byline {
   text-align: center;

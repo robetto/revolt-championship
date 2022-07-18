@@ -1,27 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 import { projectFirestore } from "../firebase/config";
 import { motion } from "framer-motion";
 import { containerVariants } from "../animazioni";
 
 const Classifica = () => {
-  const [posList, setPosList] = useState([]);
-  const posCollectionRef = collection(projectFirestore, "partite");
+  const [tutteLePartite, setTutteLePartite] = useState([]);
+  const [puntiRoby, setPuntiRoby] = useState(0);
 
-  const deletePos = async (id) => {
-    const posDoc = doc(projectFirestore, "partite", id);
-    await deleteDoc(posDoc);
-  };
-
-  const getPos = async () => {
-    const data = await getDocs(posCollectionRef);
-    setPosList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    console.log("asdasd");
-  };
+  const colRef = collection(projectFirestore, "partite");
 
   useEffect(() => {
-    getPos();
-  }, [deletePos]);
+    const unsubscribe = onSnapshot(colRef, (snapshot) => {
+      let partiteArray = [];
+
+      snapshot.docs.forEach((doc) => {
+        partiteArray.push({ ...doc.data(), id: doc.id });
+      });
+      setTutteLePartite(partiteArray);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  function getSum(total, num) {
+    return total + num;
+  }
+  console.log(tutteLePartite);
+
+  const totalePuntiRoby = tutteLePartite.reduce((accumulator, object) => {
+    return (accumulator + parseFloat(object.posRoby.replace(",", "."))) ;
+  }, 0);
+  const totalePuntiDany = tutteLePartite.reduce((accumulator, object) => {
+    return (accumulator + parseFloat(object.posDany.replace(",", "."))) ;
+  }, 0);
+  const totalePuntiBoffy = tutteLePartite.reduce((accumulator, object) => {
+    return (accumulator + parseFloat(object.posBoffy.replace(",", "."))) ;
+  }, 0);
+  const totalePuntiMalsana = tutteLePartite.reduce((accumulator, object) => {
+    return (accumulator + parseFloat(object.posMalsana.replace(",", "."))) ;
+  }, 0);
 
   return (
     <motion.div
@@ -31,31 +48,11 @@ const Classifica = () => {
       animate="visible"
       exit="exit"
     >
-      <div className="classifica">
-        {posList.map((pos, index) => {
-          return (
-            <div className="pos" key={index}>
-              <div className="posHeader">
-                <div className="title">
-                  <h1> {pos.title}</h1>
-                </div>
-                <div className="deletePos">
-                  <button
-                    onClick={() => {
-                      deletePos(pos.id);
-                    }}
-                  >
-                    {" "}
-                    &#128465;
-                  </button>
-                </div>
-              </div>
-              <div className="posTextContainer">mappa {pos.idMappa} </div>
-              <h3>pilota {pos.idPilota}</h3>
-              <h3>id {pos.id}</h3>
-            </div>
-          );
-        })}
+      <div className="classifica"> 
+          <div>Roby: {totalePuntiRoby.toFixed(2)}</div>
+          <div>Dany: {totalePuntiDany.toFixed(2)}</div>
+          <div>Boffy: {totalePuntiBoffy.toFixed(2)}</div>
+          <div>Malsana: {totalePuntiMalsana.toFixed(2)}</div>
       </div>
     </motion.div>
   );
