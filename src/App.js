@@ -14,11 +14,13 @@ function App() {
     <>
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.key}>
-          <Route path="/" element={<Home />} />
-          <Route path="/partite" element={<Partite />} /> 
-          <Route path="/classifica" element={<Classifica />} />
-          <Route path="/elenco" element={<StoricoPartite />} />
-          <Route path="/mappe" element={<ListaMappe />} />
+          <Route path="/" element={<Home />}>
+            <Route index element={<Classifica />} />
+            <Route path="classifica" element={<Classifica />} />
+            <Route path="partite" element={<Partite />} />
+            <Route path="elenco" element={<StoricoPartite />} />
+            <Route path="mappe" element={<ListaMappe />} />
+          </Route>
         </Routes>
         {/* <div className="App">
         <Autocomplete
