@@ -4,7 +4,6 @@ import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Classifica from "./pages/Classifica";
-import Header from "./components/Header";
 import Partite from "./pages/Partite";
 import StoricoPartite from "./pages/StoricoPartite";
 import ListaMappe from "./components/ListaMappe";
@@ -13,7 +12,6 @@ function App() {
   const location = useLocation();
   return (
     <>
-      <Header />
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.key}>
           <Route path="/" element={<Home />} />
